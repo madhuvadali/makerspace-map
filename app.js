@@ -234,6 +234,10 @@ function select(id,fly=true){
        ${d.location_precision?`<div>${esc(PRECISION_LABEL[d.location_precision]||d.location_precision)}</div>`:''}
        ${/^https?:\/\//.test(d.source_url)?`<div><a href="${esc(d.source_url)}" target="_blank" rel="noopener">Address source</a></div>`:''}
        ${d.notes?`<div class="note">${esc(d.notes)}</div>`:''}
+     </div>
+     <div class="popup-actions">
+       <a class="popup-link" data-ptype="correct" data-pname="${esc(d.name)}">Suggest a correction</a>
+       <a class="popup-link" data-ptype="remove" data-pname="${esc(d.name)}">Flag as wrong/closed</a>
      </div>`).addTo(map);
   popup.on('close',()=>{ if(activeId===id){ activeId=null; map.setFilter('ms-sel',['==',['get','id'],-1]);
     document.querySelectorAll('#list li.active').forEach(li=>{li.classList.remove('active');li.removeAttribute('aria-current');}); } });
@@ -283,6 +287,65 @@ $('list').addEventListener('keydown',e=>{
 $('about-open').addEventListener('click',()=>$('about').showModal());
 $('about-close').addEventListener('click',()=>$('about').close());
 $('about').addEventListener('click',e=>{ if(e.target===$('about')) $('about').close(); });
+
+// Contribute dialog — "add a makerspace / correct / flag / add website" submissions,
+// sent by email until a moderation form/sheet replaces mailto.
+const CONTRIBUTE_EMAIL='madhu.vadali@iitgn.ac.in';
+const CONTRIBUTE_HINT={
+  add:"Tell us the makerspace's name, city/state and a link that shows it's real (its website, a social page, a news mention).",
+  correct:'Tell us what\'s wrong (address, category, status, anything else) and a source we can check it against.',
+  remove:"Tell us why — closed down, a duplicate of another listing, or never existed — and how you know.",
+  website:"Paste the correct website URL below, and where you found it if it isn't obvious."
+};
+function openContribute(type,name){
+  $('c-type').value=type||'add';
+  $('c-name').value=name||'';
+  updateContributeHint();
+  $('contribute').showModal();
+  ($('c-name').value?$('c-details'):$('c-name')).focus();
+}
+window.openContribute=openContribute;
+function updateContributeHint(){
+  const t=$('c-type').value;
+  $('c-hint').textContent=CONTRIBUTE_HINT[t]||'';
+  $('c-place-field').style.display=(t==='add')?'':'none';
+  $('c-website-field').style.display=(t==='website'||t==='add')?'':'none';
+}
+function contributeText(){
+  const type=$('c-type').value;
+  const typeLabel={add:'New makerspace',correct:'Correction',remove:'Flag for removal',website:'Website update'}[type];
+  return {typeLabel, text:[
+    `Type: ${typeLabel}`,
+    `Makerspace: ${$('c-name').value||'(not specified)'}`,
+    $('c-city').value||$('c-state').value?`City/State: ${[$('c-city').value,$('c-state').value].filter(Boolean).join(', ')}`:'',
+    $('c-website').value?`Website: ${$('c-website').value}`:'',
+    '',
+    'Details & source:',
+    $('c-details').value||'(none provided)',
+    '',
+    $('c-contact').value?`From: ${$('c-contact').value}`:'',
+    $('c-email').value?`Reply to: ${$('c-email').value}`:''
+  ].filter(Boolean).join('\n')};
+}
+$('contribute-open').addEventListener('click',()=>openContribute('add',''));
+$('contribute-close').addEventListener('click',()=>$('contribute').close());
+$('contribute').addEventListener('click',e=>{ if(e.target===$('contribute')) $('contribute').close(); });
+$('c-type').addEventListener('change',updateContributeHint);
+$('contribute-form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const {typeLabel,text}=contributeText();
+  const subject=`India Makerspace Map — ${typeLabel}: ${$('c-name').value||'new submission'}`;
+  window.location.href=`mailto:${CONTRIBUTE_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+});
+$('c-copy').addEventListener('click',async()=>{
+  const {text}=contributeText();
+  try{ await navigator.clipboard.writeText(text); }catch(e){ console.warn('Clipboard write failed',e); }
+  $('c-copied').hidden=false;
+});
+document.addEventListener('click',e=>{
+  const a=e.target.closest('.popup-link'); if(!a)return;
+  openContribute(a.dataset.ptype,a.dataset.pname);
+});
 
 // Phone bottom sheet
 $('sheet-toggle').addEventListener('click',()=>{

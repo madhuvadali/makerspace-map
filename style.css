@@ -21,6 +21,10 @@ button,input,select{font:inherit;color:inherit}
 h1{font-size:21px;line-height:1.2;margin:0 0 4px;font-weight:700}
 .head p{margin:0;font-size:14px}
 .text-btn{background:none;border:0;padding:2px 0;color:var(--accent);cursor:pointer;font-size:14px;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.contribute-bar{padding:0 20px 14px}
+.btn-contribute{width:100%;background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);border-radius:8px;
+  padding:9px 12px;font-size:14px;font-weight:700;cursor:pointer}
+.btn-contribute:hover{background:var(--accent);color:#fff}
 .controls{padding:6px 20px 12px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line)}
 input[type=search],select{font-size:14px;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;width:100%}
 
@@ -91,6 +95,21 @@ legend{font-size:13px;color:var(--muted);margin-bottom:6px;padding:0}
 .maplibregl-popup-content a{color:var(--accent)}
 .prov{margin-top:10px;padding-top:8px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
 .prov .note{font-style:italic}
+.popup-actions{margin-top:10px;padding-top:8px;border-top:1px solid var(--line);display:flex;gap:12px;font-size:12.5px}
+.popup-actions a{cursor:pointer}
+
+/* contribute form */
+#contribute .about-body{max-width:46ch}
+.field{display:block;font-size:13px;color:var(--muted);margin:12px 0 0}
+.field input,.field select,.field textarea{display:block;width:100%;margin-top:4px;font-size:14.5px;color:var(--ink);
+  padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;font-family:inherit}
+.field textarea{resize:vertical}
+.small{font-size:12px}
+#contribute .row2{margin-top:12px}
+#contribute .row2 .field{margin-top:0}
+.contribute-actions{margin-top:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+.btn-primary:hover{background:#0b5a56}
 
 /* about dialog */
 dialog{border:0;border-radius:14px;padding:0;max-width:640px;width:calc(100% - 32px);max-height:calc(100% - 48px);color:var(--ink);box-shadow:0 20px 60px rgba(31,35,40,.25)}
@@ -117,7 +136,7 @@ dialog::backdrop{background:rgba(31,35,40,.35)}
   .sheet-toggle{display:block;position:sticky;top:0;z-index:2;flex:none;width:100%;margin:0;background:var(--panel);border:0;border-bottom:1px solid var(--line);border-radius:16px 16px 0 0;padding:12px 0 10px;font-size:14px;font-weight:700;color:var(--accent);cursor:pointer}
   .sheet-toggle::before{content:"";display:block;width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 8px}
   .head{padding:10px 16px 6px}
-  .controls,.list-head,.foot{padding-left:16px;padding-right:16px}
+  .controls,.list-head,.foot,.contribute-bar{padding-left:16px;padding-right:16px}
   .list-head{top:56px}
   #list li{padding:12px 16px}
   .about-body{padding:22px 18px}

@@ -22,6 +22,10 @@
       <button id="about-open" class="text-btn">About &amp; sources</button>
     </header>
 
+    <div class="contribute-bar">
+      <button id="contribute-open" class="btn-contribute" type="button">+ Add or fix a listing</button>
+    </div>
+
     <div class="controls">
       <label class="sr" for="search">Search</label>
       <input id="search" type="search" placeholder="Search by name, city or description" autocomplete="off">
@@ -99,6 +103,51 @@
 
     <h3>Credits</h3>
     <p>Map data © OpenStreetMap contributors. Base map by OpenFreeMap. Geocoding by Nominatim. Last checked October 2026.</p>
+  </div>
+</dialog>
+
+<dialog id="contribute">
+  <div class="about-body">
+    <button id="contribute-close" class="close" aria-label="Close">×</button>
+    <h2>Help improve this map</h2>
+    <p>Spotted something wrong, or know a makerspace that's missing? Tell us about it below — every submission is checked before it's added, the same way the rest of this map was built, so please include a source we can verify (a website, a news article, or your own first-hand knowledge).</p>
+
+    <form id="contribute-form">
+      <label class="field">What would you like to do?
+        <select id="c-type">
+          <option value="add">Add a makerspace that's missing</option>
+          <option value="correct">Correct something about an existing listing</option>
+          <option value="remove">Flag a listing as wrong, closed or duplicate</option>
+          <option value="website">Add or update a website link</option>
+        </select>
+      </label>
+
+      <p id="c-hint" class="muted small"></p>
+
+      <label class="field" id="c-name-field">Makerspace name
+        <input id="c-name" type="text" autocomplete="off">
+      </label>
+      <div class="row2" id="c-place-field">
+        <label class="field">City<input id="c-city" type="text" autocomplete="off"></label>
+        <label class="field">State<input id="c-state" type="text" autocomplete="off"></label>
+      </div>
+      <label class="field" id="c-website-field">Website
+        <input id="c-website" type="url" placeholder="https://" autocomplete="off">
+      </label>
+      <label class="field">Details &amp; source <span class="muted small">(required — how do you know this?)</span>
+        <textarea id="c-details" rows="4" required placeholder="e.g. a link to the makerspace's website or social page, a news article, or how you know this first-hand"></textarea>
+      </label>
+      <div class="row2">
+        <label class="field">Your name <span class="muted small">(optional)</span><input id="c-contact" type="text" autocomplete="off"></label>
+        <label class="field">Your email <span class="muted small">(optional, if you'd like a reply)</span><input id="c-email" type="email" autocomplete="off"></label>
+      </div>
+
+      <div class="contribute-actions">
+        <button type="submit" class="btn-primary">Send by email</button>
+        <button type="button" id="c-copy" class="text-btn">Copy details instead</button>
+      </div>
+      <p id="c-copied" class="muted small" hidden>Copied — paste it into an email or message to send.</p>
+    </form>
   </div>
 </dialog>
 
